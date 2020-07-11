@@ -1,0 +1,59 @@
+name: Push and Deploy Container to Heroku
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  #schedule:
+  #  - cron:  5 0 * * * 
+      # Runs at 00:05 UTC every day
+      # https://tool.lu/crontab/ 
+  #watch:
+  #    types: started   
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    #if: github.event.repository.owner.id == github.event.sender.id
+    # https://p3terx.com/archives/github-actions-manual-trigger.html
+    
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Login to Heroku Container Registry
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: heroku container:login
+      
+    - name: Build and push container to registry
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        #HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+        HEROKU_APP_NAME: fuqiangminzhu
+      run: heroku container:push -a $HEROKU_APP_NAME web 
+
+    - name: Release To Heroku
+      env: 
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        #HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+        HEROKU_APP_NAME: fuqiangminzhu
+      run: heroku container:release -a $HEROKU_APP_NAME web  
+          
+
+    #- name: Build, Push and Deploy to Heroku #set the whatever name you want to this step
+    #  id: heroku
+    #  uses: jctaveras/heroku-deploy@v1.0.0  # use the latest version of the action
+    #  with:
+    #      email: ${{ secrets.HEROKU_EMAIL }} # your heroku email
+    #      api_key: ${{ secrets.HEROKU_API_KEY }} # your  heroku api key
+    #      app_name: ${{ secrets.HEROKU_APP_NAME }} # you aplication name
+    #      dockerfile_path: '' # set the path to the folder wher the Dokerfile is located
+    
+
+    #- uses: akhileshns/heroku-deploy@v3.0.4
+    #  name: Deploy to Heroku
+    #  with:
+    #      heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+    #      heroku_app_name: "petclinic-ci-cd"
+    #      heroku_email: ${{secrets.HEROKU_EMAIL}}
