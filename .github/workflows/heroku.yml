@@ -21,26 +21,26 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Login to Heroku Container Registry
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:login
+    #- name: Login to Heroku Container Registry
+    #  env:
+    #    HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+    #  run: heroku container:login
       
-    - name: Build and push container to registry
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        #HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
-        HEROKU_APP_NAME: fuqiangminzhu
-      #run: heroku container:push -a $HEROKU_APP_NAME web
-      run: heroku container:push -a fuqiangminzhu web 
+    #- name: Build and push container to registry
+    #  env:
+    #    HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+    #    #HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+    #    HEROKU_APP_NAME: fuqiangminzhu
+    #  #run: heroku container:push -a $HEROKU_APP_NAME web
+    #  run: heroku container:push -a fuqiangminzhu web 
 
-    - name: Release To Heroku
-      env: 
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        #HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
-        HEROKU_APP_NAME: fuqiangminzhu
-      #run: heroku container:release -a $HEROKU_APP_NAME web
-      run: heroku container:release -a fuqiangminzhu web  
+    #- name: Release To Heroku
+    #  env: 
+    #    HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+    #    #HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+    #    HEROKU_APP_NAME: fuqiangminzhu
+    #  #run: heroku container:release -a $HEROKU_APP_NAME web
+    #  run: heroku container:release -a fuqiangminzhu web  
           
 
     #- name: Build, Push and Deploy to Heroku #set the whatever name you want to this step
@@ -53,9 +53,10 @@ jobs:
     #      dockerfile_path: '' # set the path to the folder wher the Dokerfile is located
     
 
-    #- uses: akhileshns/heroku-deploy@v3.0.4
-    #  name: Deploy to Heroku
-    #  with:
-    #      heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-    #      heroku_app_name: "petclinic-ci-cd"
-    #      heroku_email: ${{secrets.HEROKU_EMAIL}}
+    - uses: akhileshns/heroku-deploy@v3.0.4
+      id: heroku
+      name: Deploy to Heroku
+      with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "fuqiangminzhu"
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
