@@ -9,16 +9,23 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Login to Heroku Container registry
-      env: 
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:login 
-    - name: Build and push
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:push -a fuqiangminzhu2021 web 
-    - name: Release
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:release -a fuqiangminzhu2021 web 
+    #- uses: actions/checkout@v2
+    #- name: Login to Heroku Container registry
+    #  env: 
+    #    HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+    #  run: heroku container:login 
+    #- name: Build and push
+    #  env:
+    #    HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+    #  run: heroku container:push -a fuqiangminzhu2021 web 
+    #- name: Release
+    #  env:
+    #    HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+    #  run: heroku container:release -a fuqiangminzhu2021 web 
+    - name: Deploy to Heroku
+      uses: akhileshns/heroku-deploy@v3.0.4
+      with:
+         heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+         heroku_app_name: "fuqiangminzhu2021"
+         heroku_email: ${{secrets.HEROKU_EMAIL}}
+         usedocker: true
